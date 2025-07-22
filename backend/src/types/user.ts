@@ -1,3 +1,4 @@
+import { Request } from "express";
 import mongoose, { Document } from "mongoose";
 
 export interface IUserCreate {
@@ -9,7 +10,7 @@ export interface IUserCreate {
     nativeLanguage?: string;
     learningLanguage?: string;
     isOnboarded?: boolean;
-    friend?: mongoose.Types.ObjectId[];
+    friends?: mongoose.Types.ObjectId[];
 }
 
 export interface IUserResponse {
@@ -21,7 +22,7 @@ export interface IUserResponse {
     nativeLanguage?: string;
     learningLanguage?: string;
     isOnboarded?: boolean;
-    friend?: mongoose.Types.ObjectId[];
+    friends?: mongoose.Types.ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -36,8 +37,12 @@ export interface IUser extends Document {
     nativeLanguage?: string;
     learningLanguage?: string;
     isOnboarded?: boolean;
-    friend?: mongoose.Types.ObjectId[];
+    friends?: mongoose.Types.ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
     comparePassword?(enteredPassword: string): Promise<boolean>;
+}
+
+export interface AuthenticatedRequest extends Request {
+    user?: IUser;
 }

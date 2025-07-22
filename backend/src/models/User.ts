@@ -1,6 +1,6 @@
 import mongoose, { Error} from "mongoose";
 import bcrypt from "bcryptjs";
-import { IUser } from "../types/user.types";
+import { IUser } from "../types/user";
 
 
 
@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    friend:[{
+    friends:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: "User"
     }]

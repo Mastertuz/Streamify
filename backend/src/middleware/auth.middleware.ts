@@ -1,11 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../modules/User";
-import { IUser } from "../types/user.types";
+import User from "../models/User";
+import { AuthenticatedRequest } from "../types/user";
 
-interface AuthenticatedRequest extends Request {
-    user?: IUser;
-}
 
 export const protectRoute = async(req:AuthenticatedRequest,res:Response,next:NextFunction) => {
     try {
@@ -18,7 +15,7 @@ export const protectRoute = async(req:AuthenticatedRequest,res:Response,next:Nex
         if(!decoded){
             return res.status(401).json({ message: "Unauthorized - invalid token" });
         }
-        const user = await User.findById((decoded as any).userId);
+        const user = await User.findById((decoded as jwt.JwtPayload).userId).select("-password");
         if(!user) {
             return res.status(401).json({ message: "Unauthorized - User not found" });
         }
