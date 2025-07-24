@@ -60,7 +60,7 @@ export async function signup(req: Request, res: Response) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
         })
         res.status(201).json({
             success: true,
@@ -110,7 +110,7 @@ export async function login(req: Request, res: Response) {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
         })
 
         res.status(200).json({ success: true, user });
