@@ -25,7 +25,9 @@ app.use(cors({
         "http://localhost:5174", 
         "http://127.0.0.1:5174",
         "http://localhost:3000",
-        "http://127.0.0.1:3000"
+        "http://127.0.0.1:3000",
+        "https://streamify-beige.vercel.app",
+        "https://*.vercel.app"
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -45,7 +47,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
+// For Vercel deployment
+export default app;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
