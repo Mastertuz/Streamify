@@ -4,8 +4,14 @@
   "description": "A full-stack MERN application with TypeScript support for real-time communication and language learning.",
   "main": "index.js",
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend --output public",
-    "start": "npm run start --prefix backend"
+    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd ..",
+    "start": "cd backend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "repository": {
     "type": "git",
