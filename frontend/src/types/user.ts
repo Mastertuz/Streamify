@@ -6,3 +6,7 @@ export interface IUserOnboarding{
     location: string;
     profilePic: string;
 }
+
+export interface IUser extends IUserOnboarding {
+    _id: string;
+}

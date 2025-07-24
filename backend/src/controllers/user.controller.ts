@@ -12,7 +12,7 @@ export async function getRecommendedUsers(req: AuthenticatedRequest, res: Respon
         const reccommendedUsers = await User.find({
             $and: [
                 { _id: { $ne: currentUserId } },
-                { $id: { $nin: currentUser?.friends } },
+                { _id: { $nin: currentUser?.friends } },
                 { isOnboarded: true }
             ]
         })
@@ -117,17 +117,25 @@ export async function acceptFriendRequest(req: AuthenticatedRequest, res: Respon
 
 
 export async function getFriendRequests(req: AuthenticatedRequest, res: Response) {
-    try {
-       const incomingRequests = await FriendRequest.find({ recipient: req.user?._id, status: "pending" }).populate("sender", "fullName profilePic nativeLanguage learningLanguage email");
+  try {
+    const incomingReqs = await FriendRequest.find({
+      recipient: req.user?.id,
+      status: "pending",
+    }).populate("sender", "fullName profilePic nativeLanguage learningLanguage");
 
-       const acceptedRequests = await FriendRequest.find({ sender: req.user?._id, status: "accepted" }).populate("recipient", "fullName profilePic");
+    const acceptedReqs = await FriendRequest.find({
+      sender: req.user?.id,
+      status: "accepted",
+    }).populate("recipient", "fullName profilePic");
 
-       res.status(200).json({ incomingRequests, acceptedRequests });
-    } catch (error) {
-        console.error("Error fetching friend requests:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
+    res.status(200).json({ incomingReqs, acceptedReqs });
+  } catch (error) {
+    console.log("Error in getPendingFriendRequests controller", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
+
+
 
 export async function getOutgoingFriendRequests(req: AuthenticatedRequest, res: Response) {
     try {
