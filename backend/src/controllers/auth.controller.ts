@@ -105,6 +105,7 @@ export async function login(req: Request, res: Response) {
             expiresIn: '7d'
         })
 
+        console.log("Setting JWT cookie for user:", user.email);
         res.cookie("jwt", token, {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,

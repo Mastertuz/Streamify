@@ -7,6 +7,9 @@ import { AuthenticatedRequest } from "../types/user";
 export const protectRoute = async(req:AuthenticatedRequest,res:Response,next:NextFunction) => {
     try {
         const token = req.cookies.jwt;
+        console.log("protectRoute: checking token", token ? "present" : "missing");
+        console.log("protectRoute: cookies received", Object.keys(req.cookies));
+        
         if (!token) {
             return res.status(401).json({ message: "Unauthorized - no token provided" });
         }

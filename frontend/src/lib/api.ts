@@ -18,8 +18,17 @@ export const logout = async()=>{
 }
 
 export const getAuthUser = async () => {
-  const res = await axiosInstance.get("/auth/me");
-  return res.data;
+  try {
+    const res = await axiosInstance.get("/auth/me");
+    return res.data;
+  } catch (error: any) {
+    // If user is not authenticated (401), return null instead of throwing
+    if (error.response?.status === 401) {
+      return null;
+    }
+    // Re-throw other errors
+    throw error;
+  }
 }
 
 export const completeOnboarding = async (userData: IUserOnboarding) => {
